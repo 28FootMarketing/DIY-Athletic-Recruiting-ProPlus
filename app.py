@@ -9,61 +9,89 @@ from utils.pdf_generator import generate_pdf_from_chat
 st.set_page_config(page_title="DIY Recruiting-ProPlus", layout="wide")
 
 # ✅ Inject custom CSS styling
-with open("styles.css") as f:
-    st.markdown(f"<style>{f.read()}</style>", unsafe_allow_html=True)
+try:
+    with open("styles.css") as f:
+        st.markdown(f"<style>{f.read()}</style>", unsafe_allow_html=True)
+except FileNotFoundError:
+    st.warning("Custom CSS not found.")
 
-# ✅ Load environment variables (if needed)
+# ✅ Load environment variables
 load_dotenv()
 
-# ✅ App Header
 st.title("🏅 DIY Athletic Recruiting-ProPlus")
 st.subheader("Your step-by-step recruiting assistant")
 st.markdown("Stay focused, stay ready. Let’s keep building. 💪🏽")
 
-# ✅ User Info Form
-with st.form("user_input_form"):
-    st.write("### Athlete Info")
-    name = st.text_input("Full Name")
-    current_grade_level = st.selectbox("Grade Level", ["9", "10", "11", "12", "Post Grad"])
-    primary_sport = st.selectbox("Primary Sport", ["Football", "Basketball", "Baseball", "Softball", "Soccer", "Track", "Wrestling", "Volleyball", "Esports", "Other"])
-    gpa_score = st.text_input("Current GPA")
-    college_targets = st.text_input("List target schools (comma-separated)")
-    motivation_level = st.selectbox("Motivation Level", ["Low", "Medium", "High"])
-    outreach_status = st.selectbox("Have you contacted any coaches?", ["No", "Some", "Yes, many"])
-    submitted = st.form_submit_button("Get My Game Plan")
+# Initialize session state
+if "submitted" not in st.session_state:
+    st.session_state.submitted = False
+if "user_data" not in st.session_state:
+    st.session_state.user_data = {}
+if "summary" not in st.session_state:
+    st.session_state.summary = ""
+if "module" not in st.session_state:
+    st.session_state.module = ""
 
-# ✅ Logic after submission
-if submitted:
-    user_data = {
-        "name": name,
-        "current_grade_level": current_grade_level,
-        "primary_sport": primary_sport,
-        "gpa_score": gpa_score,
-        "college_targets": college_targets,
-        "motivation_level": motivation_level,
-        "outreach_status": outreach_status
-    }
+# ✅ User Input Form
+if not st.session_state.submitted:
+    with st.form("user_input_form"):
+        st.write("### Athlete Info")
+        name = st.text_input("Full Name")
+        current_grade_level = st.selectbox("Grade Level", ["9", "10", "11", "12", "Post Grad"])
+        primary_sport = st.selectbox("Primary Sport", ["Football", "Basketball", "Baseball", "Softball", "Soccer", "Track", "Wrestling", "Volleyball", "Esports", "Other"])
+        gpa_score = st.text_input("Current GPA")
+        college_targets = st.text_input("List target schools (comma-separated)")
+        motivation_level = st.selectbox("Motivation Level", ["Low", "Medium", "High"])
+        outreach_status = st.selectbox("Have you contacted any coaches?", ["No", "Some", "Yes, many"])
+        submitted = st.form_submit_button("Get My Game Plan")
 
-    missing = validate_user_fields(user_data)
-    if missing:
-        st.error(f"Missing required fields: {', '.join(missing)}")
-    else:
-        module = select_module_based_on_input(user_data)
-        summary = build_summary(user_data, module)
+    if submitted:
+        user_data = {
+            "name": name,
+            "current_grade_level": current_grade_level,
+            "primary_sport": primary_sport,
+            "gpa_score": gpa_score,
+            "college_targets": college_targets,
+            "motivation_level": motivation_level,
+            "outreach_status": outreach_status
+        }
 
+        missing = validate_user_fields(user_data)
+        if missing:
+            st.error(f"Missing required fields: {', '.join(missing)}")
+        else:
+            module = select_module_based_on_input(user_data)
+            summary = build_summary(user_data, module)
+
+            st.session_state.submitted = True
+            st.session_state.user_data = user_data
+            st.session_state.summary = summary
+            st.session_state.module = module
+            st.rerun()
+
+# ✅ Show Summary & Module Tabs
+if st.session_state.submitted:
+    tab1, tab2 = st.tabs(["📋 Summary", "🚀 Next Module"])
+
+    with tab1:
         st.success("✅ Personalized Plan Generated!")
-        st.markdown(f"### 🎯 Recommended Module: **{module}**")
+        st.markdown(f"### 🎯 Recommended Module: **{st.session_state.module}**")
         st.markdown("#### 📄 Summary:")
-        st.text_area("Summary", summary, height=250)
+        st.text_area("Summary", st.session_state.summary, height=250)
 
         if st.button("📥 Download My Game Plan (PDF)"):
-            pdf_buffer = generate_pdf_from_chat(summary)
+            pdf_buffer = generate_pdf_from_chat(st.session_state.summary)
             st.download_button(
                 label="Download PDF",
                 data=pdf_buffer,
                 file_name="recruiting_plan.pdf",
                 mime="application/pdf"
             )
+
+    with tab2:
+        st.markdown(f"### Welcome to the **{st.session_state.module}** Module")
+        st.markdown("This module will guide you step-by-step. Make sure to follow the checklist and stay consistent.")
+        st.markdown("📌 Coming soon: embedded checklists, templates, and planners for each module.")
 
     st.markdown("---")
     st.info("You can get started at [https://recruit.facilitatetheprocess.com](https://recruit.facilitatetheprocess.com) to stay organized and visible to college coaches.")
