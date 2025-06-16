@@ -1,8 +1,3 @@
-"""
-app.py
-Main Streamlit app for DIY Athletic Recruiting-ProPlus
-"""
-
 import streamlit as st
 import os
 from dotenv import load_dotenv
