@@ -1,9 +1,15 @@
+"""
+app.py
+Main Streamlit app with admin module toggle capability
+"""
+
 import streamlit as st
 import os
 from dotenv import load_dotenv
 from utils.logic import validate_user_fields, select_module_based_on_input
 from utils.summary import build_summary
 from utils.pdf_generator import generate_pdf_from_chat
+from utils.module_config import load_module_config, save_module_config
 
 # ✅ Set Streamlit page configuration
 st.set_page_config(page_title="DIY Recruiting-ProPlus", layout="wide")
@@ -13,16 +19,36 @@ try:
     with open("styles.css") as f:
         st.markdown(f"<style>{f.read()}</style>", unsafe_allow_html=True)
 except FileNotFoundError:
-    st.warning("Custom CSS not found.")
+    st.warning("Custom CSS file not found.")
 
 # ✅ Load environment variables
 load_dotenv()
 
+# ✅ App Header
 st.title("🏅 DIY Athletic Recruiting-ProPlus")
 st.subheader("Your step-by-step recruiting assistant")
 st.markdown("Stay focused, stay ready. Let’s keep building. 💪🏽")
 
-# Initialize session state
+# ✅ Admin Access
+st.sidebar.title("Admin Panel")
+admin_code = st.sidebar.text_input("Admin Access Code", type="password")
+is_admin = (admin_code == "letmein")  # Replace with your real code
+
+# ✅ Load module toggles
+module_config = load_module_config()
+
+# ✅ Admin UI: Toggle modules
+if is_admin:
+    st.sidebar.subheader("Toggle Modules On/Off")
+    for module in module_config:
+        module_config[module] = st.sidebar.checkbox(module, module_config[module])
+    save_module_config(module_config)
+    st.sidebar.success("Module configuration saved.")
+
+# ✅ Filter active modules
+active_modules = [k for k, v in module_config.items() if v]
+
+# ✅ State Management
 if "submitted" not in st.session_state:
     st.session_state.submitted = False
 if "user_data" not in st.session_state:
@@ -32,7 +58,7 @@ if "summary" not in st.session_state:
 if "module" not in st.session_state:
     st.session_state.module = ""
 
-# ✅ User Input Form
+# ✅ User Info Form
 if not st.session_state.submitted:
     with st.form("user_input_form"):
         st.write("### Athlete Info")
@@ -61,6 +87,8 @@ if not st.session_state.submitted:
             st.error(f"Missing required fields: {', '.join(missing)}")
         else:
             module = select_module_based_on_input(user_data)
+            if module not in active_modules:
+                module = active_modules[0] if active_modules else "No active modules available"
             summary = build_summary(user_data, module)
 
             st.session_state.submitted = True
