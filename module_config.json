@@ -1,8 +1,26 @@
 {
-    "Recruiting Profile Builder": true,
-    "Target School Generator": true,
-    "Coach Messaging & Follow-Up System": false,
-    "Highlight Video & Content Strategy": true,
-    "Mock Interview & Decision-Making Coach": true,
-    "Offer Evaluation & Scholarship Assistant": true
+    "Recruiting Profile Builder": {
+        "active": true,
+        "description": "Create a profile college coaches can easily scan and save.",
+        "url": "https://recruit.facilitatetheprocess.com/profile-builder",
+        "tier": "Role-Player"
+    },
+    "Target School Generator": {
+        "active": true,
+        "description": "Find schools that fit your goals, location, and academic level.",
+        "url": "https://recruit.facilitatetheprocess.com/target-schools",
+        "tier": "Starter"
+    },
+    "Coach Messaging & Follow-Up System": {
+        "active": false,
+        "description": "Use templates and trackers to stay in touch with college coaches.",
+        "url": "https://recruit.facilitatetheprocess.com/coach-messaging",
+        "tier": "Captain"
+    },
+    "Highlight Video & Content Strategy": {
+        "active": true,
+        "description": "Plan and showcase your skills with highlight videos.",
+        "url": "https://recruit.facilitatetheprocess.com/video-strategy",
+        "tier": "Starter"
+    }
 }
