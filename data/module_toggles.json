@@ -1,28 +1,177 @@
-{
-  "1": true,
-  "2": true,
-  "3": true,
-  "4": true,
-  "5": true,
-  "6": true,
-  "7": true,
-  "8": true,
-  "9": true,
-  "10": true,
-  "11": true,
-  "12": true,
-  "13": true,
-  "14": true,
-  "15": true,
-  "16": true,
-  "17": true,
-  "18": true,
-  "19": true,
-  "20": true,
-  "21": true,
-  "22": true,
-  "23": true,
-  "24": true,
-  "25": true,
-  "26": true
-}
+[
+  {
+    "id": 1,
+    "name": "Module 1",
+    "enabled": true,
+    "version": "v1.0",
+    "last_updated": "2025-06-16T20:32:36.236270"
+  },
+  {
+    "id": 2,
+    "name": "Module 2",
+    "enabled": true,
+    "version": "v1.0",
+    "last_updated": "2025-06-16T20:32:36.236270"
+  },
+  {
+    "id": 3,
+    "name": "Module 3",
+    "enabled": true,
+    "version": "v1.0",
+    "last_updated": "2025-06-16T20:32:36.236270"
+  },
+  {
+    "id": 4,
+    "name": "Module 4",
+    "enabled": true,
+    "version": "v1.0",
+    "last_updated": "2025-06-16T20:32:36.236270"
+  },
+  {
+    "id": 5,
+    "name": "Module 5",
+    "enabled": true,
+    "version": "v1.0",
+    "last_updated": "2025-06-16T20:32:36.236270"
+  },
+  {
+    "id": 6,
+    "name": "Module 6",
+    "enabled": true,
+    "version": "v1.0",
+    "last_updated": "2025-06-16T20:32:36.236270"
+  },
+  {
+    "id": 7,
+    "name": "Module 7",
+    "enabled": true,
+    "version": "v1.0",
+    "last_updated": "2025-06-16T20:32:36.236270"
+  },
+  {
+    "id": 8,
+    "name": "Module 8",
+    "enabled": true,
+    "version": "v1.0",
+    "last_updated": "2025-06-16T20:32:36.236270"
+  },
+  {
+    "id": 9,
+    "name": "Module 9",
+    "enabled": true,
+    "version": "v1.0",
+    "last_updated": "2025-06-16T20:32:36.236270"
+  },
+  {
+    "id": 10,
+    "name": "Module 10",
+    "enabled": true,
+    "version": "v1.0",
+    "last_updated": "2025-06-16T20:32:36.236270"
+  },
+  {
+    "id": 11,
+    "name": "Module 11",
+    "enabled": true,
+    "version": "v1.0",
+    "last_updated": "2025-06-16T20:32:36.236270"
+  },
+  {
+    "id": 12,
+    "name": "Module 12",
+    "enabled": true,
+    "version": "v1.0",
+    "last_updated": "2025-06-16T20:32:36.236270"
+  },
+  {
+    "id": 13,
+    "name": "Module 13",
+    "enabled": true,
+    "version": "v1.0",
+    "last_updated": "2025-06-16T20:32:36.236270"
+  },
+  {
+    "id": 14,
+    "name": "Module 14",
+    "enabled": true,
+    "version": "v1.0",
+    "last_updated": "2025-06-16T20:32:36.236270"
+  },
+  {
+    "id": 15,
+    "name": "Module 15",
+    "enabled": true,
+    "version": "v1.0",
+    "last_updated": "2025-06-16T20:32:36.236270"
+  },
+  {
+    "id": 16,
+    "name": "Module 16",
+    "enabled": true,
+    "version": "v1.0",
+    "last_updated": "2025-06-16T20:32:36.236270"
+  },
+  {
+    "id": 17,
+    "name": "Module 17",
+    "enabled": true,
+    "version": "v1.0",
+    "last_updated": "2025-06-16T20:32:36.236270"
+  },
+  {
+    "id": 18,
+    "name": "Module 18",
+    "enabled": true,
+    "version": "v1.0",
+    "last_updated": "2025-06-16T20:32:36.236270"
+  },
+  {
+    "id": 19,
+    "name": "Module 19",
+    "enabled": true,
+    "version": "v1.0",
+    "last_updated": "2025-06-16T20:32:36.236270"
+  },
+  {
+    "id": 20,
+    "name": "Module 20",
+    "enabled": true,
+    "version": "v1.0",
+    "last_updated": "2025-06-16T20:32:36.236270"
+  },
+  {
+    "id": 21,
+    "name": "Module 21",
+    "enabled": true,
+    "version": "v1.0",
+    "last_updated": "2025-06-16T20:32:36.236270"
+  },
+  {
+    "id": 22,
+    "name": "Module 22",
+    "enabled": true,
+    "version": "v1.0",
+    "last_updated": "2025-06-16T20:32:36.236270"
+  },
+  {
+    "id": 23,
+    "name": "Module 23",
+    "enabled": true,
+    "version": "v1.0",
+    "last_updated": "2025-06-16T20:32:36.236270"
+  },
+  {
+    "id": 24,
+    "name": "Module 24",
+    "enabled": true,
+    "version": "v1.0",
+    "last_updated": "2025-06-16T20:32:36.236270"
+  },
+  {
+    "id": 25,
+    "name": "Module 25",
+    "enabled": true,
+    "version": "v1.0",
+    "last_updated": "2025-06-16T20:32:36.236270"
+  }
+]
