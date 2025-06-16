@@ -8,6 +8,10 @@ from utils.pdf_generator import generate_pdf_from_chat
 # ✅ Set Streamlit page configuration
 st.set_page_config(page_title="DIY Recruiting-ProPlus", layout="wide")
 
+# ✅ Inject custom CSS styling
+with open("styles.css") as f:
+    st.markdown(f"<style>{f.read()}</style>", unsafe_allow_html=True)
+    
 # ✅ Load environment variables (if needed)
 load_dotenv()
 
