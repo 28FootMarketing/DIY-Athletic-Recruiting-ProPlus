@@ -1,0 +1,20 @@
+[
+    {
+        "feature": "Athlete Podcast Launch Lab",
+        "description": "Step-by-step guide to launch your own podcast as a student-athlete.",
+        "status": "Coming Soon",
+        "eta": "July 2025"
+    },
+    {
+        "feature": "Scholarship ROI Calculator",
+        "description": "Helps athletes compare scholarship offers based on long-term value.",
+        "status": "Planned",
+        "eta": "August 2025"
+    },
+    {
+        "feature": "Live Coach Q&A Bot",
+        "description": "Ask your most important recruiting questions, get real answers fast.",
+        "status": "In Progress",
+        "eta": "September 2025"
+    }
+]
