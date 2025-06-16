@@ -1,65 +1,55 @@
-"""
-app.py
-Main Streamlit app with admin module toggle capability
-"""
 
 import streamlit as st
 import os
+import json
+from datetime import datetime
 from dotenv import load_dotenv
 from utils.logic import validate_user_fields, select_module_based_on_input
 from utils.summary import build_summary
 from utils.pdf_generator import generate_pdf_from_chat
-from utils.module_config import load_module_config, save_module_config
+from collections import defaultdict
 
 # ✅ Set Streamlit page configuration
 st.set_page_config(page_title="DIY Recruiting-ProPlus", layout="wide")
 
 # ✅ Inject custom CSS styling
-try:
+if os.path.exists("styles.css"):
     with open("styles.css") as f:
         st.markdown(f"<style>{f.read()}</style>", unsafe_allow_html=True)
-except FileNotFoundError:
-    st.warning("Custom CSS file not found.")
 
 # ✅ Load environment variables
 load_dotenv()
 
-# ✅ App Header
-st.title("🏅 DIY Athletic Recruiting-ProPlus")
-st.subheader("Your step-by-step recruiting assistant")
-st.markdown("Stay focused, stay ready. Let’s keep building. 💪🏽")
+# Sidebar Navigation
+page = st.sidebar.radio("Navigation", ["🏠 Main", "📍 Roadmap"])
 
-# ✅ Admin Access
-st.sidebar.title("Admin Panel")
-admin_code = st.sidebar.text_input("Admin Access Code", type="password")
-is_admin = (admin_code == "letmein")  # Replace with your real code
+# Admin login
+admin_code = st.sidebar.text_input("Admin Code", type="password")
+is_admin = admin_code == "ftproplus2025"  # Customize this
 
-# ✅ Load module toggles
-module_config = load_module_config()
+# File path for roadmap
+roadmap_file = "roadmap.json"
 
-# ✅ Admin UI: Toggle modules
-if is_admin:
-    st.sidebar.subheader("Toggle Modules On/Off")
-    for module in module_config:
-        module_config[module] = st.sidebar.checkbox(module, module_config[module])
-    save_module_config(module_config)
-    st.sidebar.success("Module configuration saved.")
+def load_roadmap():
+    try:
+        with open(roadmap_file, "r") as f:
+            return json.load(f)
+    except:
+        return []
 
-# ✅ Filter active modules
-active_modules = [k for k, v in module_config.items() if v]
+def save_roadmap(data):
+    with open(roadmap_file, "w") as f:
+        json.dump(data, f, indent=4)
 
-# ✅ State Management
-if "submitted" not in st.session_state:
-    st.session_state.submitted = False
-if "user_data" not in st.session_state:
-    st.session_state.user_data = {}
-if "summary" not in st.session_state:
-    st.session_state.summary = ""
-if "module" not in st.session_state:
-    st.session_state.module = ""
+roadmap = load_roadmap()
 
-# ✅ User Info Form
-if not st.session_state.submitted:
+# PAGE: MAIN
+if page == "🏠 Main":
+    st.title("🏅 DIY Athletic Recruiting-ProPlus")
+    st.subheader("Your step-by-step recruiting assistant")
+    st.markdown("Stay focused, stay ready. Let’s keep building. 💪🏽")
+
+    # ✅ User Info Form
     with st.form("user_input_form"):
         st.write("### Athlete Info")
         name = st.text_input("Full Name")
@@ -87,39 +77,58 @@ if not st.session_state.submitted:
             st.error(f"Missing required fields: {', '.join(missing)}")
         else:
             module = select_module_based_on_input(user_data)
-            if module not in active_modules:
-                module = active_modules[0] if active_modules else "No active modules available"
             summary = build_summary(user_data, module)
 
-            st.session_state.submitted = True
-            st.session_state.user_data = user_data
             st.session_state.summary = summary
-            st.session_state.module = module
-            st.rerun()
+            st.success("✅ Personalized Plan Generated!")
+            st.markdown(f"### 🎯 Recommended Module: **{module}**")
+            st.markdown("#### 📄 Summary:")
+            st.text_area("Summary", summary, height=250)
 
-# ✅ Show Summary & Module Tabs
-if st.session_state.submitted:
-    tab1, tab2 = st.tabs(["📋 Summary", "🚀 Next Module"])
+            if st.button("📥 Download My Game Plan (PDF)"):
+                pdf_path = generate_pdf_from_chat(summary)
+                with open(pdf_path, "rb") as f:
+                    st.download_button(label="Download PDF", data=f, file_name=os.path.basename(pdf_path), mime="application/pdf")
 
-    with tab1:
-        st.success("✅ Personalized Plan Generated!")
-        st.markdown(f"### 🎯 Recommended Module: **{st.session_state.module}**")
-        st.markdown("#### 📄 Summary:")
-        st.text_area("Summary", st.session_state.summary, height=250)
+# PAGE: ROADMAP
+elif page == "📍 Roadmap":
+    st.title("📍 Recruiting Roadmap")
+    st.info("Track what’s coming next for DIY Recruiting-ProPlus.")
 
-        if st.button("📥 Download My Game Plan (PDF)"):
-            pdf_buffer = generate_pdf_from_chat(st.session_state.summary)
-            st.download_button(
-                label="Download PDF",
-                data=pdf_buffer,
-                file_name="recruiting_plan.pdf",
-                mime="application/pdf"
-            )
+    roadmap_by_month = defaultdict(list)
+    for item in roadmap:
+        roadmap_by_month[item["eta"]].append(item)
 
-    with tab2:
-        st.markdown(f"### Welcome to the **{st.session_state.module}** Module")
-        st.markdown("This module will guide you step-by-step. Make sure to follow the checklist and stay consistent.")
-        st.markdown("📌 Coming soon: embedded checklists, templates, and planners for each module.")
+    for month in sorted(roadmap_by_month):
+        st.markdown(f"## 📅 {month}")
+        for i, item in enumerate(roadmap_by_month[month]):
+            st.markdown(f"### 🔧 {item['feature']}")
+            st.markdown(f"- **Status:** `{item['status']}`")
+            st.markdown(f"- _{item['description']}_")
 
-    st.markdown("---")
-    st.info("You can get started at [https://recruit.facilitatetheprocess.com](https://recruit.facilitatetheprocess.com) to stay organized and visible to college coaches.")
+            if is_admin:
+                if st.button(f"❌ Remove: {item['feature']}", key=f"remove_{month}_{i}"):
+                    roadmap.remove(item)
+                    save_roadmap(roadmap)
+                    st.experimental_rerun()
+
+    if is_admin:
+        st.markdown("---")
+        st.markdown("### ➕ Add New Feature to Roadmap")
+        with st.form("add_feature_form"):
+            new_feature = st.text_input("Feature Name")
+            new_description = st.text_area("Feature Description")
+            new_status = st.selectbox("Status", ["Planned", "In Progress", "Coming Soon", "Released"])
+            new_eta = st.date_input("Estimated Launch Date", value=datetime.today())
+            submitted = st.form_submit_button("Add Feature")
+
+        if submitted:
+            roadmap.append({
+                "feature": new_feature,
+                "description": new_description,
+                "status": new_status,
+                "eta": new_eta.strftime("%B %Y")
+            })
+            save_roadmap(roadmap)
+            st.success("✅ Feature added to roadmap.")
+            st.experimental_rerun()
