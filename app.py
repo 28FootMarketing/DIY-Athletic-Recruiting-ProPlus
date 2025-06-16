@@ -58,9 +58,8 @@ if submitted:
         st.text_area("Summary", summary, height=250)
 
         if st.button("📥 Download My Game Plan (PDF)"):
-            pdf_path = generate_pdf_from_chat(summary)
-            with open(pdf_path, "rb") as f:
-                st.download_button(label="Download PDF", data=f, file_name=os.path.basename(pdf_path), mime="application/pdf")
+            pdf_buffer = generate_pdf_from_chat(summary)
+st.download_button(label="Download PDF", data=pdf_buffer, file_name="recruiting_plan.pdf", mime="application/pdf")
 
         # First-time call-to-action link
         st.markdown("---")
