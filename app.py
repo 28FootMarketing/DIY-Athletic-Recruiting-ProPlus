@@ -1,6 +1,7 @@
 
 import streamlit as st
 import os
+import json
 from dotenv import load_dotenv
 from utils.logic_admin import (
     validate_user_fields,
@@ -11,68 +12,61 @@ from utils.logic_admin import (
 )
 from utils.summary import build_summary
 from utils.pdf_generator import generate_pdf_from_chat
+from pathlib import Path
 
-# ✅ Streamlit Page Config
+# ✅ Set Streamlit page configuration
 st.set_page_config(page_title="DIY Recruiting-ProPlus", layout="wide")
 
-# ✅ Load environment variables
-load_dotenv()
-ADMIN_PASSWORD = os.getenv("ADMIN_PASSWORD", "admin123")
-
-# ✅ Load Custom Styling
-if os.path.exists("styles.css"):
+# ✅ Inject custom CSS styling
+if Path("styles.css").exists():
     with open("styles.css") as f:
         st.markdown(f"<style>{f.read()}</style>", unsafe_allow_html=True)
 
-# ✅ Sidebar: Admin Login + Roadmap
-st.sidebar.title("Navigation")
-tab_selection = st.sidebar.radio("Go to:", ["Recruiting Assistant", "Roadmap", "Admin Panel"])
+# ✅ Load environment variables
+load_dotenv()
 
-# 🔐 Admin Login
-st.sidebar.markdown("## Admin Access")
-admin_input = st.sidebar.text_input("Enter admin password", type="password")
-is_admin = (admin_input == ADMIN_PASSWORD)
+# ✅ Sidebar Navigation
+page = st.sidebar.radio("Navigate", ["🏠 Home", "📅 Roadmap", "🔐 Admin Panel"])
 
-# 🔁 Admin Module Toggle Panel
-if tab_selection == "Admin Panel":
-    st.header("🔐 Admin Module Manager")
-    if is_admin:
-        st.success("Access granted. Manage modules below.")
-        toggles = load_module_toggles()
-        updated = False
-        for mod in load_ranked_modules():
-            label = f"{mod['id']}. {mod['name']}"
-            current = toggles.get(str(mod["id"]), True)
-            new = st.checkbox(label, value=current)
-            if new != current:
-                toggles[str(mod["id"])] = new
-                updated = True
-        if updated:
-            save_module_toggles(toggles)
-            st.success("✅ Module toggles updated.")
+# ✅ Roadmap Content
+if page == "📅 Roadmap":
+    st.title("📅 DIY Recruiting-ProPlus Roadmap")
+    st.markdown("Here is what we are working on to improve your recruiting journey.")
+    st.markdown("""### Upcoming Features by Category:
+- **Recruiting Tools**
+    - Athlete Resume Builder
+    - Video Audit Module
+- **Coach Communication**
+    - AI Email Feedback
+    - Cold Outreach Script Generator
+- **Motivation & Mindset**
+    - Mental Performance Journal
+    - Athlete Reset Toolkit
+- **Parent & Coach Hub**
+    - Weekly Planner Sync
+    - Parent Communication Scripts
+""")
+    st.stop()
+
+# ✅ Admin Panel
+is_admin = False
+if page == "🔐 Admin Panel":
+    st.title("🔐 Admin Module Control Panel")
+    password = st.text_input("Enter Admin Password", type="password")
+    if password == os.getenv("ADMIN_PASSWORD", "admin123"):
+        is_admin = True
+        st.success("Access granted.")
     else:
-        st.warning("Admin access required to manage modules.")
+        st.warning("Enter the correct admin password to manage modules.")
 
-# 📅 Roadmap Tab
-elif tab_selection == "Roadmap":
-    st.header("📅 Recruiting-ProPlus Roadmap")
-    st.markdown("Here is a look at upcoming features and releases.")
-    roadmap = {
-        "July": ["Interactive GPA Tracker", "Advanced Coach Messaging Templates"],
-        "August": ["NIL Module Enhancements", "Mobile Optimization"],
-        "September": ["AI Skill Evaluator", "Highlight Video Analyzer"]
-    }
-    for month, features in roadmap.items():
-        st.markdown(f"### {month}")
-        for item in features:
-            st.markdown(f"- {item}")
+# ✅ Home / Main App
+if page == "🏠 Home" or is_admin:
 
-# 🧠 Recruiting Assistant Main Interface
-else:
     st.title("🏅 DIY Athletic Recruiting-ProPlus")
     st.subheader("Your step-by-step recruiting assistant")
     st.markdown("Stay focused, stay ready. Let’s keep building. 💪🏽")
 
+    # ✅ Athlete Info Form
     with st.form("user_input_form"):
         st.write("### Athlete Info")
         name = st.text_input("Full Name")
@@ -100,15 +94,42 @@ else:
             st.error(f"Missing required fields: {', '.join(missing)}")
         else:
             module = select_module_based_on_input(user_data)
-            if module:
-                summary = build_summary(user_data, module)
-                st.success("✅ Personalized Plan Generated!")
-                st.markdown(f"### 🎯 Recommended Module: **{module['name']}**")
-                st.markdown("#### 📄 Summary:")
-                st.text_area("Summary", summary, height=250)
-                if st.button("📥 Download My Game Plan (PDF)"):
-                    pdf_path = generate_pdf_from_chat(summary)
-                    with open(pdf_path, "rb") as f:
-                        st.download_button(label="Download PDF", data=f, file_name=os.path.basename(pdf_path), mime="application/pdf")
-            else:
-                st.warning("No module is currently enabled or applicable for your info. Please check back later.")
+            summary = build_summary(user_data, module)
+
+            st.success("✅ Personalized Plan Generated!")
+            st.markdown(f"### 🎯 Recommended Module: **{module}**")
+            st.markdown("#### 📄 Summary:")
+            st.text_area("Summary", summary, height=250)
+
+            if st.button("📥 Download My Game Plan (PDF)"):
+                pdf_path = generate_pdf_from_chat(summary)
+                with open(pdf_path, "rb") as f:
+                    st.download_button(label="Download PDF", data=f, file_name=os.path.basename(pdf_path), mime="application/pdf")
+
+    # ✅ Admin: Toggle Modules + View Content
+    if is_admin:
+        st.sidebar.markdown("### Toggle & Preview Modules")
+        toggles = load_module_toggles()
+        modules = load_ranked_modules()
+        selected_module_name = st.sidebar.selectbox("Select Module to View", [mod["name"] for mod in modules])
+
+        updated = False
+        for mod in modules:
+            current = toggles.get(str(mod["id"]), True)
+            new = st.sidebar.checkbox(f"{mod['id']}. {mod['name']}", value=current)
+            if new != current:
+                toggles[str(mod["id"])] = new
+                updated = True
+
+        if updated:
+            save_module_toggles(toggles)
+            st.sidebar.success("Module toggles updated!")
+
+        selected = next((m for m in modules if m["name"] == selected_module_name), None)
+        if selected:
+            st.markdown("---")
+            st.markdown(f"## 🧩 Module Preview: {selected['name']}")
+            st.markdown(f"**Category:** {selected['category']}")
+            st.markdown(f"**Description:**
+
+{selected['content']}")
