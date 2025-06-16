@@ -22,10 +22,7 @@ def generate_pdf_from_chat(content, filename="recruiting_plan.pdf"):
     for line in clean_content.split("\n"):
         pdf.multi_cell(0, 10, line)
 
-    buffer = BytesIO()
-    pdf.output(buffer)
-    buffer.seek(0)
-    return buffer
-    pdf.output(buffer)
-    buffer.seek(0)
+    # Output PDF to bytes using Latin-1
+    pdf_output = pdf.output(dest="S").encode("latin1")
+    buffer = BytesIO(pdf_output)
     return buffer
