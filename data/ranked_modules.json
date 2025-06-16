@@ -2,126 +2,151 @@
   {
     "id": 1,
     "name": "Recruiting Profile Builder",
-    "original": 1
+    "category": "Getting Started",
+    "content": "Create a standout profile that includes your academic info, athletic achievements, highlight videos, and personal story."
   },
   {
     "id": 2,
-    "name": "GPA & Eligibility Tracker",
-    "original": 8
+    "name": "Target School Generator",
+    "category": "Getting Started",
+    "content": "Build a list of target colleges based on your sport, academics, and personal preferences to guide outreach and visits."
   },
   {
     "id": 3,
-    "name": "Target School Generator",
-    "original": 2
+    "name": "Coach Messaging & Follow-Up System",
+    "category": "Communication",
+    "content": "Learn when, why, and how to message coaches \u2014 and how to track responses and follow-ups."
   },
   {
     "id": 4,
-    "name": "Parent & Guardian Support Assistant",
-    "original": 9
+    "name": "Highlight Video & Content Strategy",
+    "category": "Exposure & Content",
+    "content": "Craft an attention-grabbing highlight video and create a content plan that gets shared."
   },
   {
     "id": 5,
-    "name": "NIL Game Plan for High School Athletes",
-    "original": 15
+    "name": "Recruiting Timeline & Task Tracker",
+    "category": "Planning & Strategy",
+    "content": "Follow a monthly roadmap of what to do, when \u2014 from outreach to official visits."
   },
   {
     "id": 6,
-    "name": "Coach Messaging & Follow-Up System",
-    "original": 3
+    "name": "Mock Interview & Decision-Making Coach",
+    "category": "Decision Support",
+    "content": "Practice answering tough questions from coaches and learn how to assess program fit."
   },
   {
     "id": 7,
-    "name": "Highlight Video & Content Strategy",
-    "original": 4
+    "name": "Offer Evaluation & Scholarship Assistant",
+    "category": "Decision Support",
+    "content": "Compare offers, understand scholarship breakdowns, and spot red flags in packages."
   },
   {
     "id": 8,
-    "name": "Personal Branding & Content Planner",
-    "original": 11
+    "name": "Eligibility Center & Academic Compliance Tracker",
+    "category": "Academics & Eligibility",
+    "content": "Track NCAA/NAIA eligibility steps, GPA requirements, and coursework compliance."
   },
   {
     "id": 9,
-    "name": "Campus Visit & Interview Prep Kit",
-    "original": 12
+    "name": "Parent & Guardian Support Assistant",
+    "category": "Support Team",
+    "content": "Help families stay informed, involved, and proactive without stepping on toes."
   },
   {
     "id": 10,
-    "name": "Recruiting Timeline & Task Tracker",
-    "original": 5
+    "name": "Mental Performance & Confidence Coach",
+    "category": "Mindset",
+    "content": "Strengthen your focus, build your confidence, and manage recruiting pressure like a pro."
   },
   {
     "id": 11,
-    "name": "Mental Performance & Confidence Coach",
-    "original": 10
+    "name": "Content Planner & Personal Branding Assistant",
+    "category": "Exposure & Content",
+    "content": "Build a personal brand, post consistently, and use content to attract attention."
   },
   {
     "id": 12,
-    "name": "Offer Evaluation & Scholarship Assistant",
-    "original": 7
+    "name": "Campus Visit & Interview Prep Kit",
+    "category": "Planning & Strategy",
+    "content": "Know what to ask, how to act, and how to follow up after a campus visit or interview."
   },
   {
     "id": 13,
-    "name": "Mock Interview & Decision-Making Coach",
-    "original": 6
+    "name": "Final Season Focus Plan",
+    "category": "Mindset",
+    "content": "Lock in for your final high school or JUCO season to maximize impact and visibility."
   },
   {
     "id": 14,
-    "name": "Final Season Focus Plan",
-    "original": 13
+    "name": "Post-Graduate & JUCO Recruiting Route",
+    "category": "Alternative Paths",
+    "content": "Explore post-grad prep schools or JUCOs as part of your long-term recruiting plan."
   },
   {
     "id": 15,
-    "name": "Post-Graduate & JUCO Route Planner",
-    "original": 14
+    "name": "NIL Game Plan for High School Athletes",
+    "category": "NIL & Business",
+    "content": "Understand Name, Image & Likeness rules and build your value early."
   },
   {
     "id": 16,
-    "name": "Transfer Portal Strategy",
-    "original": 17
+    "name": "Transition to College Athlete Life",
+    "category": "Transition",
+    "content": "Prepare mentally, physically, and academically to succeed as a college freshman athlete."
   },
   {
     "id": 17,
-    "name": "Life Without a Scholarship \u2013 Walk-On Path",
-    "original": 18
+    "name": "Transfer Portal Strategy",
+    "category": "Alternative Paths",
+    "content": "Build a plan before entering the portal \u2014 know your reasons, timeline, and what coaches want."
   },
   {
     "id": 18,
-    "name": "Transition to College Athlete Life",
-    "original": 16
+    "name": "Life Without a Scholarship (Walk-On Paths)",
+    "category": "Alternative Paths",
+    "content": "Discover how walk-ons earn spots, gain playing time, and prove themselves."
   },
   {
     "id": 19,
-    "name": "College-to-Pro Dream Prep Plan",
-    "original": 20
+    "name": "Retired Athlete Reset Plan",
+    "category": "Post-Sports Life",
+    "content": "If you're done competing, learn how to channel your identity and strengths into new goals."
   },
   {
     "id": 20,
-    "name": "Retired Athlete Reset Plan",
-    "original": 19
+    "name": "College-to-Pro Dream Prep Plan",
+    "category": "Elite Track",
+    "content": "Learn what it takes \u2014 physically, mentally, and logistically \u2014 to pursue pro sports after college."
   },
   {
     "id": 21,
     "name": "Athlete Career Pivot Planner",
-    "original": 21
+    "category": "Post-Sports Life",
+    "content": "Turn athletic skills into professional success \u2014 identify, plan, and pivot."
   },
   {
     "id": 22,
     "name": "Athlete-Entrepreneur Startup Blueprint",
-    "original": 22
+    "category": "NIL & Business",
+    "content": "Build a business, monetize your brand, or launch a service around your sport identity."
   },
   {
     "id": 23,
     "name": "Athlete Legacy Builder",
-    "original": 23
+    "category": "Legacy & Impact",
+    "content": "Define what you want to be remembered for and create lasting impact in your community."
   },
   {
     "id": 24,
     "name": "Athlete Alumni Network Builder",
-    "original": 24
+    "category": "Legacy & Impact",
+    "content": "Create a support group or mentorship network for younger athletes using your experience."
   },
   {
     "id": 25,
     "name": "Athlete Speaker Series Toolkit",
-    "original": 25
+    "category": "Legacy & Impact",
+    "content": "Host talks, workshops, or podcasts that inspire \u2014 and build your leadership brand."
   }
 ]
