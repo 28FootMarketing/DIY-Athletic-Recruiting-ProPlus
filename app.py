@@ -11,7 +11,7 @@ st.set_page_config(page_title="DIY Recruiting-ProPlus", layout="wide")
 # ✅ Inject custom CSS styling
 with open("styles.css") as f:
     st.markdown(f"<style>{f.read()}</style>", unsafe_allow_html=True)
-    
+
 # ✅ Load environment variables (if needed)
 load_dotenv()
 
@@ -44,7 +44,6 @@ if submitted:
         "outreach_status": outreach_status
     }
 
-    # Validate input
     missing = validate_user_fields(user_data)
     if missing:
         st.error(f"Missing required fields: {', '.join(missing)}")
@@ -59,8 +58,12 @@ if submitted:
 
         if st.button("📥 Download My Game Plan (PDF)"):
             pdf_buffer = generate_pdf_from_chat(summary)
-st.download_button(label="Download PDF", data=pdf_buffer, file_name="recruiting_plan.pdf", mime="application/pdf")
+            st.download_button(
+                label="Download PDF",
+                data=pdf_buffer,
+                file_name="recruiting_plan.pdf",
+                mime="application/pdf"
+            )
 
-        # First-time call-to-action link
-        st.markdown("---")
-        st.info("You can get started at [https://recruit.facilitatetheprocess.com](https://recruit.facilitatetheprocess.com) to stay organized and visible to college coaches.")
+    st.markdown("---")
+    st.info("You can get started at [https://recruit.facilitatetheprocess.com](https://recruit.facilitatetheprocess.com) to stay organized and visible to college coaches.")
