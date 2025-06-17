@@ -93,34 +93,30 @@ elif page == "🏠 Home":
                 with open(pdf_path, "rb") as f:
                     st.download_button(label="Download PDF", data=f, file_name=os.path.basename(pdf_path), mime="application/pdf")
 
-# ✅ Admin Panel
-elif page == "🔐 Admin Panel":
-    st.title("🔐 Admin Module Control Panel")
-    password = st.text_input("Enter Admin Password", type="password")
-    if password == os.getenv("ADMIN_PASSWORD", "admin123"):
-        st.success("Access granted.")
+# ✅ Admin: Toggle Modules + View Content
+if is_admin:
+    st.sidebar.markdown("### Toggle & Preview Modules")
 
-        toggles = load_module_toggles()
-        modules = load_ranked_modules()
-        selected_module_name = st.sidebar.selectbox("Select Module to View", [mod["name"] for mod in modules])
+    # Load toggles and ensure it's a dictionary
+    toggles = load_module_toggles() or {}
+    modules = load_ranked_modules()
+    selected_module_name = st.sidebar.selectbox("Select Module to View", [mod["name"] for mod in modules])
 
-        updated = False
-        for mod in modules:
-            current = toggles.get(str(mod["id"]), True)
-            new = st.sidebar.checkbox(f"{mod['id']}. {mod['name']}", value=current)
-            if new != current:
-                toggles[str(mod["id"])] = new
-                updated = True
+    updated = False
+    for mod in modules:
+        current = toggles.get(str(mod["id"]), True)
+        new = st.sidebar.checkbox(f"{mod['id']}. {mod['name']}", value=current)
+        if new != current:
+            toggles[str(mod["id"])] = new
+            updated = True
 
-        if updated:
-            save_module_toggles(toggles)
-            st.sidebar.success("Module toggles updated!")
+    if updated:
+        save_module_toggles(toggles)
+        st.sidebar.success("Module toggles updated!")
 
-        selected = next((m for m in modules if m["name"] == selected_module_name), None)
-        if selected:
-            st.markdown("---")
-            st.markdown(f"## 🧩 Module Preview: {selected['name']}")
-            st.markdown(f"**Category:** {selected['category']}")
-            st.markdown(f"**Description:**\n{selected['content']}")
-    else:
-        st.warning("Enter the correct admin password to manage modules.")
+    selected = next((m for m in modules if m["name"] == selected_module_name), None)
+    if selected:
+        st.markdown("---")
+        st.markdown(f"## 🧩 Module Preview: {selected['name']}")
+        st.markdown(f"**Category:** {selected['category']}")
+        st.markdown(f"**Description:**\n\n{selected['content']}")
