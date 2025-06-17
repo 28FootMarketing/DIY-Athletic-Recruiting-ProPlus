@@ -14,21 +14,21 @@ from utils.summary import build_summary
 from utils.pdf_generator import generate_pdf_from_chat
 from pathlib import Path
 
-# Set Streamlit page configuration
+# ✅ Set Streamlit page configuration
 st.set_page_config(page_title="DIY Recruiting-ProPlus", layout="wide")
 
-# Inject custom CSS styling
+# ✅ Inject custom CSS styling
 if Path("styles.css").exists():
     with open("styles.css") as f:
         st.markdown(f"<style>{f.read()}</style>", unsafe_allow_html=True)
 
-# Load environment variables
+# ✅ Load environment variables
 load_dotenv()
 
-# Sidebar Navigation
+# ✅ Sidebar Navigation
 page = st.sidebar.radio("Navigate", ["🏠 Home", "📅 Roadmap", "🔐 Admin Panel"])
 
-# Roadmap Content
+# ✅ Roadmap Content
 if page == "📅 Roadmap":
     st.title("📅 DIY Recruiting-ProPlus Roadmap")
     st.markdown("Here is what we are working on to improve your recruiting journey.")
@@ -48,30 +48,17 @@ if page == "📅 Roadmap":
 """)
     st.stop()
 
-# Admin Panel
-is_admin = False
-if page == "🔐 Admin Panel":
-    st.title("🔐 Admin Module Control Panel")
-    password = st.text_input("Enter Admin Password", type="password")
-    if password == os.getenv("ADMIN_PASSWORD", "admin123"):
-        is_admin = True
-        st.success("Access granted.")
-    else:
-        st.warning("Enter the correct admin password to manage modules.")
-
-# Home / Main App
-if page == "🏠 Home" or is_admin:
+# ✅ Home / Main App
+elif page == "🏠 Home":
     st.title("🏅 DIY Athletic Recruiting-ProPlus")
     st.subheader("Your step-by-step recruiting assistant")
     st.markdown("Stay focused, stay ready. Let’s keep building. 💪🏽")
 
-    # Athlete Info Form
     with st.form("user_input_form"):
         st.write("### Athlete Info")
         name = st.text_input("Full Name")
         current_grade_level = st.selectbox("Grade Level", ["9", "10", "11", "12", "Post Grad"])
-        primary_sport = st.selectbox("Primary Sport", ["Football", "Basketball", "Baseball", "Softball",
-                                                       "Soccer", "Track", "Wrestling", "Volleyball", "Esports", "Other"])
+        primary_sport = st.selectbox("Primary Sport", ["Football", "Basketball", "Baseball", "Softball", "Soccer", "Track", "Wrestling", "Volleyball", "Esports", "Other"])
         gpa_score = st.text_input("Current GPA")
         college_targets = st.text_input("List target schools (comma-separated)")
         motivation_level = st.selectbox("Motivation Level", ["Low", "Medium", "High"])
@@ -104,12 +91,15 @@ if page == "🏠 Home" or is_admin:
             if st.button("📥 Download My Game Plan (PDF)"):
                 pdf_path = generate_pdf_from_chat(summary)
                 with open(pdf_path, "rb") as f:
-                    st.download_button(label="Download PDF", data=f, file_name=os.path.basename(pdf_path),
-                                       mime="application/pdf")
+                    st.download_button(label="Download PDF", data=f, file_name=os.path.basename(pdf_path), mime="application/pdf")
 
-    # Admin: Toggle Modules + View Content
-    if is_admin:
-        st.sidebar.markdown("### Toggle & Preview Modules")
+# ✅ Admin Panel
+elif page == "🔐 Admin Panel":
+    st.title("🔐 Admin Module Control Panel")
+    password = st.text_input("Enter Admin Password", type="password")
+    if password == os.getenv("ADMIN_PASSWORD", "admin123"):
+        st.success("Access granted.")
+
         toggles = load_module_toggles()
         modules = load_ranked_modules()
         selected_module_name = st.sidebar.selectbox("Select Module to View", [mod["name"] for mod in modules])
@@ -131,4 +121,6 @@ if page == "🏠 Home" or is_admin:
             st.markdown("---")
             st.markdown(f"## 🧩 Module Preview: {selected['name']}")
             st.markdown(f"**Category:** {selected['category']}")
-            st.markdown(f"**Description:**\n\n{selected['content']}")
+            st.markdown(f"**Description:**\n{selected['content']}")
+    else:
+        st.warning("Enter the correct admin password to manage modules.")
