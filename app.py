@@ -24,24 +24,24 @@ load_dotenv()
 # Sidebar Navigation
 page = st.sidebar.radio("Navigate", [" Home", " Roadmap", " Admin Panel"])
 # Roadmap Content
-if page == " Roadmap":
-st.title(" DIY Recruiting-ProPlus Roadmap")
-st.markdown("Here is what we are working on to improve your recruiting journey.")
-st.markdown("""### Upcoming Features by Category:
+if page == "📅 Roadmap":
+    st.title(" DIY Recruiting-ProPlus Roadmap")
+    st.markdown("Here is what we are working on to improve your recruiting journey.")
+    st.markdown("""### Upcoming Features by Category:
 - **Recruiting Tools**
-- Athlete Resume Builder
-- Video Audit Module
+    - Athlete Resume Builder
+    - Video Audit Module
 - **Coach Communication**
-- AI Email Feedback
-- Cold Outreach Script Generator
+    - AI Email Feedback
+    - Cold Outreach Script Generator
 - **Motivation & Mindset**
-- Mental Performance Journal
-- Athlete Reset Toolkit
+    - Mental Performance Journal
+    - Athlete Reset Toolkit
 - **Parent & Coach Hub**
-- Weekly Planner Sync
-- Parent Communication Scripts
+    - Weekly Planner Sync
+    - Parent Communication Scripts
 """)
-st.stop()
+    st.stop()
 # Admin Panel
 is_admin = False
 if page == " Admin Panel":
