@@ -97,17 +97,20 @@ elif page == "🏠 Home":
 if is_admin:
     st.sidebar.markdown("### Toggle & Preview Modules")
 
-    # Load toggles and ensure it's a dictionary
     toggles = load_module_toggles() or {}
     modules = load_ranked_modules()
-    selected_module_name = st.sidebar.selectbox("Select Module to View", [mod["name"] for mod in modules])
+
+    selected_module_name = st.sidebar.selectbox(
+        "Select Module to View", [mod["name"] for mod in modules]
+    )
 
     updated = False
     for mod in modules:
-        current = toggles.get(str(mod["id"]), True)
-        new = st.sidebar.checkbox(f"{mod['id']}. {mod['name']}", value=current)
+        mod_id = str(mod.get("id", mod["name"]))  # fallback in case ID missing
+        current = toggles.get(mod_id, True)
+        new = st.sidebar.checkbox(f"{mod_id}. {mod['name']}", value=current)
         if new != current:
-            toggles[str(mod["id"])] = new
+            toggles[mod_id] = new
             updated = True
 
     if updated:
@@ -118,5 +121,5 @@ if is_admin:
     if selected:
         st.markdown("---")
         st.markdown(f"## 🧩 Module Preview: {selected['name']}")
-        st.markdown(f"**Category:** {selected['category']}")
-        st.markdown(f"**Description:**\n\n{selected['content']}")
+        st.markdown(f"**Category:** {selected.get('category', 'N/A')}")
+        st.markdown(f"**Description:**\n\n{selected.get('content', 'No description provided.')}")
