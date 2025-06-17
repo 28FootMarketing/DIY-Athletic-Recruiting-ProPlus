@@ -44,14 +44,14 @@ if page == "📅 Roadmap":
     st.stop()
 # Admin Panel
 is_admin = False
-if page == " Admin Panel":
-st.title(" Admin Module Control Panel")
-password = st.text_input("Enter Admin Password", type="password")
-if password == os.getenv("ADMIN_PASSWORD", "admin123"):
-is_admin = True
-st.success("Access granted.")
-else:
-st.warning("Enter the correct admin password to manage modules.")
+if page == "🔐 Admin Panel":
+    st.title(" Admin Module Control Panel")
+    password = st.text_input("Enter Admin Password", type="password")
+    if password == os.getenv("ADMIN_PASSWORD", "admin123"):
+        is_admin = True
+        st.success("Access granted.")
+    else:
+        st.warning("Enter the correct admin password to manage modules.")
 # Home / Main App
 if page == " Home" or is_admin:
 st.title(" DIY Athletic Recruiting-ProPlus")
