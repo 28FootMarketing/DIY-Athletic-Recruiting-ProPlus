@@ -25,6 +25,9 @@ if Path("styles.css").exists():
 # ✅ Load environment variables
 load_dotenv()
 
+# ✅ Define default admin flag
+is_admin = False
+
 # ✅ Sidebar Navigation
 page = st.sidebar.radio("Navigate", ["🏠 Home", "📅 Roadmap", "🔐 Admin Panel"])
 
@@ -48,7 +51,17 @@ if page == "📅 Roadmap":
 """)
     st.stop()
 
-# 🏠 Main App (Home or Admin)
+# ✅ Admin Panel Login
+if page == "🔐 Admin Panel":
+    st.title("🔐 Admin Module Control Panel")
+    password = st.text_input("Enter Admin Password", type="password")
+    if password == os.getenv("ADMIN_PASSWORD", "admin123"):
+        is_admin = True
+        st.success("Access granted.")
+    else:
+        st.warning("Enter the correct admin password to manage modules.")
+
+# ✅ Home / Main App (also shows if Admin is logged in)
 if page == "🏠 Home" or is_admin:
 
     st.title("🏅 DIY Athletic Recruiting-ProPlus")
@@ -110,7 +123,7 @@ if is_admin:
 
     updated = False
     for mod in modules:
-        mod_id = str(mod.get("id", mod["name"]))  # fallback in case ID missing
+        mod_id = str(mod.get("id", mod["name"]))  # fallback if ID is missing
         current = toggles.get(mod_id, True)
         new = st.sidebar.checkbox(f"{mod_id}. {mod['name']}", value=current)
         if new != current:
