@@ -1,4 +1,5 @@
 
+# [ENHANCED] DIY Athletic Recruiting-ProPlus App
 import streamlit as st
 import os
 import json
@@ -130,4 +131,4 @@ if page == "🏠 Home" or is_admin:
             st.markdown("---")
             st.markdown(f"## 🧩 Module Preview: {selected['name']}")
             st.markdown(f"**Category:** {selected['category']}")
-            st.markdown(f"**Description:**\n\n{selected['content']}")
+            st.markdown(f"**Description:**\n{selected['content']}")
