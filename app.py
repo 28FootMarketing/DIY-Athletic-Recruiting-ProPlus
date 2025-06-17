@@ -1,6 +1,7 @@
 
 import streamlit as st
 import os
+from utils.virtual_bot import get_bot_response
 from dotenv import load_dotenv
 from utils.logic_admin import (
     validate_user_fields,
