@@ -4,3 +4,7 @@ python-dotenv
 fpdf>=1.7.2
 ollama
 requests
+echo streamlit > requirements.txt
+echo python-dotenv >> requirements.txt
+echo fpdf >> requirements.txt
+pip install -r requirements.txt
