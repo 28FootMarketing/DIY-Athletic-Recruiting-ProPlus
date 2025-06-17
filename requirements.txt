@@ -3,3 +3,4 @@ openai
 python-dotenv
 fpdf>=1.7.2
 ollama
+requests
