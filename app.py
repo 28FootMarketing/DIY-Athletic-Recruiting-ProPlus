@@ -115,5 +115,5 @@ if selected:
 st.markdown("---")
 st.markdown(f"## Module Preview: {selected['name']}")
 st.markdown(f"**Category:** {selected['category']}")
-st.markdown("**Description:**")
-st.markdown(selected['content'])
+st.markdown(f"**Description:**
+{selected['content']}")
