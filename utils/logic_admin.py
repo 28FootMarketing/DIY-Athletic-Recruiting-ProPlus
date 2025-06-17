@@ -32,7 +32,31 @@ def select_module_based_on_input(user_data):
 
     if not enabled_modules:
         return None
+def generate_ollama_summary(user_data):
+    from ollama import Chat
 
+    chat = Chat(model='llama3')
+
+    prompt = f"""
+You are a college recruiting assistant. Based on the following athlete data, analyze and recommend:
+
+1. A match strength score from 1 to 100
+2. The best-fit college division (D1, D2, D3, NAIA, JUCO)
+3. Key mindset or motivation focus
+4. Suggested recruiting module or plan
+
+Athlete Info:
+- Name: {user_data['name']}
+- Grade: {user_data['current_grade_level']}
+- Sport: {user_data['primary_sport']}
+- GPA: {user_data['gpa_score']}
+- Target Schools: {user_data['college_targets']}
+- Motivation: {user_data['motivation_level']}
+- Outreach Status: {user_data['outreach_status']}
+"""
+
+    response = chat.create(messages=[{"role": "user", "content": prompt}])
+    return response['message']['content']
     # Sample logic: prioritize by outreach level, then grade level, then module rank
     filtered = [
         mod for mod in enabled_modules
