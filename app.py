@@ -130,6 +130,4 @@ if page == "🏠 Home" or is_admin:
             st.markdown("---")
             st.markdown(f"## 🧩 Module Preview: {selected['name']}")
             st.markdown(f"**Category:** {selected['category']}")
-            st.markdown(f"**Description:**
-
-{selected['content']}")
+            st.markdown(f"**Description:**\n\n{selected['content']}")
