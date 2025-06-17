@@ -88,6 +88,9 @@ if page == "🏠 Home" or is_admin:
             summary = build_summary(user_data, module)
 
             st.success("✅ Personalized Plan Generated!")
+                        st.markdown("---")
+            st.markdown("## 🧠 Message from Coach Khloe")
+            st.info(get_bot_response(user_data))
             st.markdown(f"### 🎯 Recommended Module: **{module}**")
             st.markdown("#### 📄 Summary:")
             st.text_area("Summary", summary, height=250)
