@@ -1,7 +1,6 @@
 
 import streamlit as st
 import os
-import json
 from dotenv import load_dotenv
 from utils.logic_admin import (
     validate_user_fields,
@@ -14,44 +13,35 @@ from utils.summary import build_summary
 from utils.pdf_generator import generate_pdf_from_chat
 from pathlib import Path
 
-# ✅ Set Streamlit page configuration
 st.set_page_config(page_title="DIY Recruiting-ProPlus", layout="wide")
 
-# ✅ Inject custom CSS styling
 if Path("styles.css").exists():
     with open("styles.css") as f:
         st.markdown(f"<style>{f.read()}</style>", unsafe_allow_html=True)
 
-# ✅ Load environment variables
 load_dotenv()
 
-# ✅ Define default admin flag
-is_admin = False
-
-# ✅ Sidebar Navigation
 page = st.sidebar.radio("Navigate", ["🏠 Home", "📅 Roadmap", "🔐 Admin Panel"])
 
-# ✅ Roadmap Content
 if page == "📅 Roadmap":
     st.title("📅 DIY Recruiting-ProPlus Roadmap")
-    st.markdown("Here is what we are working on to improve your recruiting journey.")
-    st.markdown("""### Upcoming Features by Category:
-- **Recruiting Tools**
-    - Athlete Resume Builder
-    - Video Audit Module
-- **Coach Communication**
-    - AI Email Feedback
-    - Cold Outreach Script Generator
-- **Motivation & Mindset**
-    - Mental Performance Journal
-    - Athlete Reset Toolkit
-- **Parent & Coach Hub**
-    - Weekly Planner Sync
-    - Parent Communication Scripts
-""")
+    st.markdown("""Here is what we are working on to improve your recruiting journey.
+    ### Upcoming Features by Category:
+    - **Recruiting Tools**
+        - Athlete Resume Builder
+        - Video Audit Module
+    - **Coach Communication**
+        - AI Email Feedback
+        - Cold Outreach Script Generator
+    - **Motivation & Mindset**
+        - Mental Performance Journal
+        - Athlete Reset Toolkit
+    - **Parent & Coach Hub**
+        - Weekly Planner Sync
+        - Parent Communication Scripts""")
     st.stop()
 
-# ✅ Admin Panel Login
+is_admin = False
 if page == "🔐 Admin Panel":
     st.title("🔐 Admin Module Control Panel")
     password = st.text_input("Enter Admin Password", type="password")
@@ -61,14 +51,11 @@ if page == "🔐 Admin Panel":
     else:
         st.warning("Enter the correct admin password to manage modules.")
 
-# ✅ Home / Main App (also shows if Admin is logged in)
 if page == "🏠 Home" or is_admin:
-
     st.title("🏅 DIY Athletic Recruiting-ProPlus")
     st.subheader("Your step-by-step recruiting assistant")
     st.markdown("Stay focused, stay ready. Let’s keep building. 💪🏽")
 
-    # ✅ Athlete Info Form
     with st.form("user_input_form"):
         st.write("### Athlete Info")
         name = st.text_input("Full Name")
@@ -110,20 +97,17 @@ if page == "🏠 Home" or is_admin:
                     st.download_button(label="Download PDF", data=f, file_name=os.path.basename(pdf_path),
                                        mime="application/pdf")
 
-# ✅ Admin: Toggle Modules + View Content
 if is_admin:
     st.sidebar.markdown("### Toggle & Preview Modules")
 
     toggles = load_module_toggles() or {}
     modules = load_ranked_modules()
 
-    selected_module_name = st.sidebar.selectbox(
-        "Select Module to View", [mod["name"] for mod in modules]
-    )
+    selected_module_name = st.sidebar.selectbox("Select Module to View", [mod["name"] for mod in modules])
 
     updated = False
     for mod in modules:
-        mod_id = str(mod.get("id", mod["name"]))  # fallback if ID is missing
+        mod_id = str(mod.get("id", mod["name"]))
         current = toggles.get(mod_id, True)
         new = st.sidebar.checkbox(f"{mod_id}. {mod['name']}", value=current)
         if new != current:
