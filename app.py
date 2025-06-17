@@ -53,10 +53,10 @@ if page == "🔐 Admin Panel":
     else:
         st.warning("Enter the correct admin password to manage modules.")
 # Home / Main App
-if page == " Home" or is_admin:
-st.title(" DIY Athletic Recruiting-ProPlus")
-st.subheader("Your step-by-step recruiting assistant")
-st.markdown("Stay focused, stay ready. Lets keep building. ")
+if page == "🏠 Home" or is_admin:
+    st.title("🏅 DIY Athletic Recruiting-ProPlus")
+    st.subheader("Your step-by-step recruiting assistant")
+    st.markdown("Stay focused, stay ready. Let’s keep building. 💪🏽")
 # Athlete Info Form
 with st.form("user_input_form"):
 st.write("### Athlete Info")
