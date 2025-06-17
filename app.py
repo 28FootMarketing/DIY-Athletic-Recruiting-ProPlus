@@ -17,8 +17,8 @@ from pathlib import Path
 st.set_page_config(page_title="DIY Recruiting-ProPlus", layout="wide")
 # Inject custom CSS styling
 if Path("styles.css").exists():
-with open("styles.css") as f:
-st.markdown(f"<style>{f.read()}</style>", unsafe_allow_html=True)
+    with open("styles.css") as f:
+        st.markdown(f"<style>{f.read()}</style>", unsafe_allow_html=True)
 # Load environment variables
 load_dotenv()
 # Sidebar Navigation
